@@ -3,7 +3,7 @@ package StringGo
 import (
 	"io"
 	"log"
-	"mahonia"
+	"github.com/joy999/mahonia"
 	"regexp"
 	"strconv"
 	"strings"
