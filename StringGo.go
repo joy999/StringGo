@@ -1,4 +1,4 @@
-package StringGo
+package stringgo
 
 import (
 	"io"
