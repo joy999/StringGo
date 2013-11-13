@@ -3,6 +3,7 @@ package StringGo
 import (
 	"io"
 	"log"
+	"mahonia"
 	"regexp"
 	"strconv"
 	"strings"
@@ -117,13 +118,13 @@ func (str String) MatchReplace(pattern string, to string) String {
 
 //由GBK编码转为UTF8
 func (str String) GBKToUTF8() String {
-	_c := GBKToUTF8(string(str))
+	_c := doGBKToUTF8(string(str))
 	return String(_c)
 }
 
 //由UTF8转为GBK编码
 func (str String) UTF8ToGBK() String {
-	_c := UTF8ToGBK(string(str))
+	_c := doUTF8ToGBK(string(str))
 	return String(_c)
 }
 
@@ -195,4 +196,41 @@ func (this StringArray) Erase(key int) StringArray {
 	}
 
 	return ret
+}
+
+func doGBKToUTF8(inputStr string) string {
+	return doEncodingConvert(inputStr, "gbk", "utf-8")
+}
+
+func doUTF8ToGBK(inputStr string) string {
+	return doEncodingConvert(inputStr, "utf-8", "gbk")
+}
+
+func doEncodingConvert(inputStr string, fromCode string, toCode string) string {
+	outStr := String("")
+
+	outPointer := &outStr
+	reader := String(inputStr).NewReader()
+	var r io.Reader = reader
+	var w io.Writer = outPointer
+
+	if fromCode != "utf-8" {
+		decode := mahonia.NewDecoder(fromCode)
+		if decode == nil {
+			log.Fatalf("Could not create decoder for %s", fromCode)
+
+		}
+		r = decode.NewReader(r)
+	}
+
+	if toCode != "utf-8" {
+		encode := mahonia.NewEncoder(toCode)
+		if encode == nil {
+			log.Fatalf("Could not create encoder for %s", toCode)
+		}
+		w = encode.NewWriter(w)
+	}
+	io.Copy(w, r)
+
+	return string(outStr)
 }
