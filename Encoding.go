@@ -48,7 +48,7 @@ func EncodingConvert(inputStr string, fromCode string, toCode string) string {
 	return string(outStr)
 }
 
-func md5(s string) string {
+func Md5(s string) string {
 	h := crypto.MD5.New()
 	io.WriteString(h, s)
 	return string(h.Sum(nil))
