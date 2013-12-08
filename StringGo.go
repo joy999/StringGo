@@ -1,9 +1,9 @@
-package stringgo
+package utils
 
 import (
+	"github.com/joy999/mahonia"
 	"io"
 	"log"
-	"github.com/joy999/mahonia"
 	"regexp"
 	"strconv"
 	"strings"
