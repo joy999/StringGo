@@ -1,7 +1,8 @@
-package main
+package utils
 
 import (
 	"encoding/json"
+	"fmt"
 	"strconv"
 )
 
@@ -19,32 +20,21 @@ func (j JsonMap) JsonEncode() (JsonString, error) {
 	return JsonString(s), err
 }
 
-//func (j JsonMap) GetValString(key string) int64 {
-//	var ret string
-//	switch v := j[key].(type) {
-//	case float64:
+func (j JsonMap) GetValString(key string) string {
+	var ret string
+	switch v := j[key].(type) {
+	case float64, float32:
+		ret = fmt.Sprintf("%f", v)
+	case string:
+		ret = v
+	case int, int64, int32, int16, uint64, uint16, uint32, uint8, int8:
+		ret = fmt.Sprintf("%d", v)
+	default:
+		ret = fmt.Sprintf("%v", v)
+	}
 
-//	case float32:
-//		ret = int64(v)
-//	case string:
-
-//		ret = v
-//	case int:
-//		ret = int64(v)
-//	case int64:
-//		ret = int64(v)
-//	case int32:
-//		ret = int64(v)
-//	case int16:
-//		ret = int64(v)
-//	case uint64:
-//		ret = int64(v)
-//	default:
-//		ret = 0
-//	}
-
-//	return ret
-//}
+	return ret
+}
 
 func (j JsonMap) GetValInt64(key string) int64 {
 	var ret int64
