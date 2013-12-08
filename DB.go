@@ -109,7 +109,7 @@ func (this *SqlDB) Close() error {
 	return nil
 }
 
-func OpenDb(driverName, dataSourceName string) (SqlOp, error) {
+func OpenDatabase(driverName, dataSourceName string) (SqlOp, error) {
 	ODBLock.Lock()
 	defer ODBLock.Unlock()
 
