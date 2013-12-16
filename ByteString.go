@@ -42,7 +42,7 @@ func (this *ByteString) ReadFromReader(reader io.Reader) (int64, error) {
 	获取剩余未读的字节流
 */
 func (this *ByteString) GetBuff() []byte {
-	return this.buff.Bytes()
+	return append(this.buff.Bytes())
 }
 
 func (this *ByteString) WriteToWriter(w io.Writer) (int64, error) {
@@ -210,6 +210,25 @@ func (this *ByteString) ReadUInt64() (uint64, error) {
 func (this *ByteString) ReadString(size int) (string, error) {
 	bs, err := this.ReadBytes(size)
 	return string(bs), err
+}
+
+//读取一个定长的字串，这个字串是以0结尾的C格式字串
+func (this *ByteString) ReadCString(size int) (string, error) {
+	bs, err := this.ReadBytes(size)
+
+	if err != nil {
+		return "", err
+	}
+
+	l := len(bs)
+	i := 0
+	for ; i < l; i++ {
+		if bs[i] == 0 {
+			break
+		}
+	}
+
+	return string(bs[:i]), nil
 }
 
 func (this *ByteString) ReadBytes(size int) ([]byte, error) {
