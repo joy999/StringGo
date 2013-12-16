@@ -25,8 +25,13 @@ func (this *ByteString) ClearBuff() {
 /**
   将字节流追加到当前处理之后
 */
-func (this *ByteString) SetBuff(buff []byte) {
+func (this *ByteString) AppendBuff(buff []byte) {
 	this.buff.Write(buff)
+}
+
+func (this *ByteString) SetBuff(buff []byte) {
+	this.ClearBuff()
+	this.AppendBuff(buff)
 }
 
 func (this *ByteString) ReadFromReader(reader io.Reader) (int64, error) {
@@ -272,4 +277,8 @@ func (this *ByteString) WriteVarString(str string) error {
 func (this *ByteString) WriteBytes(bs []byte, size int) error {
 	_bs := bs[:size]
 	return binary.Write(this.buff, binary.BigEndian, _bs)
+}
+
+func (this *ByteString) Len() int {
+	return this.buff.Len()
 }
