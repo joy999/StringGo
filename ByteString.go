@@ -281,6 +281,29 @@ func (this *ByteString) WriteUInt64(n uint64) error {
 	return binary.Write(this.buff, binary.BigEndian, n)
 }
 
+func (this *ByteString) WriteCString(str string, size int) error {
+	s := len(str)
+	bs := []byte(str)
+	var bytes []byte
+	ds := 0
+	if s > size {
+		bytes = bs[:size]
+		str = string(bytes)
+	} else {
+		ds = size - s
+	}
+
+	if err := binary.Write(this.buff, binary.BigEndian, str); err != nil {
+		return err
+	}
+
+	if ds > 0 {
+		bs := make([]byte, ds)
+		return this.WriteBytes(bs, ds)
+	}
+	return nil
+}
+
 func (this *ByteString) WriteString(str string) error {
 	return binary.Write(this.buff, binary.BigEndian, str)
 }
