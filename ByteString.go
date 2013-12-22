@@ -290,10 +290,11 @@ func (this *ByteString) WriteCString(str string, size int) error {
 		bytes = bs[:size]
 		str = string(bytes)
 	} else {
+
 		ds = size - s
 	}
 
-	if err := binary.Write(this.buff, binary.BigEndian, str); err != nil {
+	if err := this.WriteString(str); err != nil {
 		return err
 	}
 
@@ -305,7 +306,7 @@ func (this *ByteString) WriteCString(str string, size int) error {
 }
 
 func (this *ByteString) WriteString(str string) error {
-	return binary.Write(this.buff, binary.BigEndian, str)
+	return binary.Write(this.buff, binary.BigEndian, []byte(str))
 }
 
 func (this *ByteString) WriteVarString(str string) error {
