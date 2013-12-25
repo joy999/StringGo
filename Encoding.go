@@ -2,9 +2,9 @@ package utils
 
 import (
 	"crypto"
+	"github.com/joy999/mahonia"
 	"io"
 	"log"
-	"mahonia"
 )
 
 func GBKToUTF8(inputStr string) string {
