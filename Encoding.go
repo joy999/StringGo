@@ -2,6 +2,7 @@ package utils
 
 import (
 	"crypto"
+	"encoding/hex"
 	"github.com/joy999/mahonia"
 	"io"
 	"log"
@@ -51,5 +52,5 @@ func EncodingConvert(inputStr string, fromCode string, toCode string) string {
 func Md5(s string) string {
 	h := crypto.MD5.New()
 	io.WriteString(h, s)
-	return string(h.Sum(nil))
+	return hex.EncodeToString(h.Sum(nil))
 }
