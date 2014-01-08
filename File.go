@@ -21,3 +21,25 @@ func FilePutContents(filename string, c []byte) error {
 
 	return err
 }
+
+func FileGetContents(filename string) ([]byte, error) {
+	content := make([]byte, 0)
+	f, err := os.Open(filename)
+	if err != nil {
+		return content, err
+	}
+
+	defer f.Close()
+	buff := make([]byte, 4096)
+
+	for {
+		if n, err := f.Read(buff); err != nil {
+			return content, err
+		} else {
+			content = append(content, buff...)
+			if n < 4096 {
+				return content, nil
+			}
+		}
+	}
+}
