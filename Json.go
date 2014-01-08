@@ -38,25 +38,29 @@ func (j JsonMap) GetValString(key string) string {
 
 func (j JsonMap) GetValInt64(key string) int64 {
 	var ret int64
-	switch v := j[key].(type) {
-	case float64:
-		ret = int64(v)
-	case float32:
-		ret = int64(v)
-	case string:
-		i, _ := strconv.Atoi(v)
-		ret = int64(i)
-	case int:
-		ret = int64(v)
-	case int64:
-		ret = int64(v)
-	case int32:
-		ret = int64(v)
-	case int16:
-		ret = int64(v)
-	case uint64:
-		ret = int64(v)
-	default:
+	if val, ok := j[key]; ok {
+		switch v := val.(type) {
+		case float64:
+			ret = int64(v)
+		case float32:
+			ret = int64(v)
+		case string:
+			i, _ := strconv.Atoi(v)
+			ret = int64(i)
+		case int:
+			ret = int64(v)
+		case int64:
+			ret = int64(v)
+		case int32:
+			ret = int64(v)
+		case int16:
+			ret = int64(v)
+		case uint64:
+			ret = int64(v)
+		default:
+			ret = 0
+		}
+	} else {
 		ret = 0
 	}
 
@@ -105,9 +109,8 @@ func (j JsonString) JsonEncode() (JsonString, error) {
 }
 
 func (j JsonString) JsonDecode(t interface{}) error {
-
-	return json.Unmarshal([]byte(j), t)
-
+	err := json.Unmarshal([]byte(j), t)
+	return err
 }
 
 func (j JsonString) ToString() String {

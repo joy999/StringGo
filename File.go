@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"io"
 	"os"
 )
 
@@ -33,10 +34,12 @@ func FileGetContents(filename string) ([]byte, error) {
 	buff := make([]byte, 4096)
 
 	for {
-		if n, err := f.Read(buff); err != nil {
+		if n, err := f.Read(buff); err != nil && err != io.EOF {
 			return content, err
 		} else {
-			content = append(content, buff...)
+			if n > 0 {
+				content = append(content, buff[:n]...)
+			}
 			if n < 4096 {
 				return content, nil
 			}
