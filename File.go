@@ -24,24 +24,26 @@ func FilePutContents(filename string, c []byte) error {
 }
 
 func FileGetContents(filename string) ([]byte, error) {
-	content := make([]byte, 0)
+
 	f, err := os.Open(filename)
 	if err != nil {
-		return content, err
+		return nil, err
 	}
 
 	defer f.Close()
+
+	bs := NewByteString()
 	buff := make([]byte, 4096)
 
 	for {
 		if n, err := f.Read(buff); err != nil && err != io.EOF {
-			return content, err
+			return bs.GetBuff(), err
 		} else {
 			if n > 0 {
-				content = append(content, buff[:n]...)
+				bs.WriteBytes(buff, n)
 			}
 			if n < 4096 {
-				return content, nil
+				return bs.GetBuff(), nil
 			}
 		}
 	}
