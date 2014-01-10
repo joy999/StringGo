@@ -21,7 +21,7 @@ func (j JsonMap) JsonEncode() (JsonString, error) {
 }
 
 func (j JsonMap) GetValString(key string) string {
-	var ret string
+	var ret string = ""
 	switch v := j[key].(type) {
 	case float64, float32:
 		ret = fmt.Sprintf("%f", v)
