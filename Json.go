@@ -30,6 +30,9 @@ func (j JsonMap) GetValString(key string) string {
 	case int, int64, int32, int16, uint64, uint16, uint32, uint8, int8:
 		ret = fmt.Sprintf("%d", v)
 	default:
+		if v == nil {
+			return ""
+		}
 		ret = fmt.Sprintf("%v", v)
 	}
 
