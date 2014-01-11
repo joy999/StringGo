@@ -39,6 +39,100 @@ func (j JsonMap) GetValString(key string) string {
 	return ret
 }
 
+func ToJsonArray(value interface{}) JsonArray {
+	switch v := value.(type) {
+	case JsonArray:
+		return v
+	case []interface{}:
+		return JsonArray(v)
+	case []int:
+		arr := NewJsonArray()
+		for k, kv := range v {
+			arr[k] = kv
+		}
+		return arr
+	case []int8:
+		arr := NewJsonArray()
+		for k, kv := range v {
+			arr[k] = kv
+		}
+		return arr
+	case []int16:
+		arr := NewJsonArray()
+		for k, kv := range v {
+			arr[k] = kv
+		}
+		return arr
+	case []int32:
+		arr := NewJsonArray()
+		for k, kv := range v {
+			arr[k] = kv
+		}
+		return arr
+	case []int64:
+		arr := NewJsonArray()
+		for k, kv := range v {
+			arr[k] = kv
+		}
+		return arr
+	case []uint:
+		arr := NewJsonArray()
+		for k, kv := range v {
+			arr[k] = kv
+		}
+		return arr
+	case []uint8:
+		arr := NewJsonArray()
+		for k, kv := range v {
+			arr[k] = kv
+		}
+		return arr
+	case []uint16:
+		arr := NewJsonArray()
+		for k, kv := range v {
+			arr[k] = kv
+		}
+		return arr
+	case []uint32:
+		arr := NewJsonArray()
+		for k, kv := range v {
+			arr[k] = kv
+		}
+		return arr
+	case []uint64:
+		arr := NewJsonArray()
+		for k, kv := range v {
+			arr[k] = kv
+		}
+		return arr
+	case []string:
+		arr := NewJsonArray()
+		for k, kv := range v {
+			arr[k] = kv
+		}
+		return arr
+	case []float32:
+		arr := NewJsonArray()
+		for k, kv := range v {
+			arr[k] = kv
+		}
+		return arr
+	case []float64:
+		arr := NewJsonArray()
+		for k, kv := range v {
+			arr[k] = kv
+		}
+		return arr
+	default:
+		arr := NewJsonArray()
+		return arr
+	}
+}
+
+func (this JsonMap) GetValArray(key string) JsonArray {
+	return ToJsonArray(key)
+}
+
 func (j JsonMap) GetValInt64(key string) int64 {
 	var ret int64
 	if val, ok := j[key]; ok {
@@ -94,6 +188,10 @@ func (j JsonFloat) ToFloat64() float64 {
 }
 
 type JsonArray []interface{}
+
+func NewJsonArray() JsonArray {
+	return make(JsonArray, 0)
+}
 
 func (j JsonArray) JsonEncode() (JsonString, error) {
 	s, err := json.Marshal(j)
