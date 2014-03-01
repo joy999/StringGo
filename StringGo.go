@@ -153,6 +153,16 @@ func (this String) TrimSpace() String {
 	return String(strings.TrimSpace(this.ToString()))
 }
 
+func (this StringArray) have(item string) bool {
+	for _, v := range this {
+		if v.IsSame(item) {
+			return true
+		}
+	}
+
+	return false
+}
+
 func (this StringArray) Implode(sep string) String {
 	arr := this.ToNativeStringArray()
 
