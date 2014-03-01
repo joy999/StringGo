@@ -153,7 +153,7 @@ func (this String) TrimSpace() String {
 	return String(strings.TrimSpace(this.ToString()))
 }
 
-func (this StringArray) have(item string) bool {
+func (this StringArray) Have(item string) bool {
 	for _, v := range this {
 		if v.IsSame(item) {
 			return true
