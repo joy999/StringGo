@@ -20,6 +20,18 @@ func (j JsonMap) JsonEncode() (JsonString, error) {
 	return JsonString(s), err
 }
 
+func (j JsonMap) GetJsonMap(key string) JsonMap {
+	var ret JsonMap = make(JsonMap, 0)
+	switch v := j[key].(type) {
+	case JsonMap:
+		ret = v
+	case map[string]interface{}:
+		ret = JsonMap(v)
+	}
+
+	return ret
+}
+
 func (j JsonMap) GetValString(key string) string {
 	var ret string = ""
 	switch v := j[key].(type) {
