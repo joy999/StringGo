@@ -23,6 +23,19 @@ func FilePutContents(filename string, c []byte) error {
 	return err
 }
 
+func FileAppendContents(filename string, c []byte) error {
+	f, err := os.OpenFile(filename, os.O_APPEND|os.O_CREATE, 0)
+	if err != nil {
+		return err
+	}
+
+	defer f.Close()
+
+	_, err = f.Write(c)
+
+	return err
+}
+
 func FileGetContents(filename string) ([]byte, error) {
 
 	f, err := os.Open(filename)
