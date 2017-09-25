@@ -1,5 +1,20 @@
 package utils
 
+/*
+   使用方法：
+    str := NewJsonString('a')
+	if json, err := str.JsonEncode(); !err {
+		json.ToNativeString()
+	}
+
+
+	json := NewJsonString('{a:1}')
+	jMap := NewJsonMap()
+	json.JsonDecode( jMap )
+	操作jMap获取数据
+	...
+*/
+
 import (
 	"encoding/json"
 	"fmt"
