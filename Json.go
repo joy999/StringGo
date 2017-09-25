@@ -58,79 +58,79 @@ func ToJsonArray(value interface{}) JsonArray {
 	case []interface{}:
 		return JsonArray(v)
 	case []int:
-		arr := NewJsonArray()
+		arr := newJsonArray(len(v))
 		for k, kv := range v {
 			arr[k] = kv
 		}
 		return arr
 	case []int8:
-		arr := NewJsonArray()
+		arr := newJsonArray(len(v))
 		for k, kv := range v {
 			arr[k] = kv
 		}
 		return arr
 	case []int16:
-		arr := NewJsonArray()
+		arr := newJsonArray(len(v))
 		for k, kv := range v {
 			arr[k] = kv
 		}
 		return arr
 	case []int32:
-		arr := NewJsonArray()
+		arr := newJsonArray(len(v))
 		for k, kv := range v {
 			arr[k] = kv
 		}
 		return arr
 	case []int64:
-		arr := NewJsonArray()
+		arr := newJsonArray(len(v))
 		for k, kv := range v {
 			arr[k] = kv
 		}
 		return arr
 	case []uint:
-		arr := NewJsonArray()
+		arr := newJsonArray(len(v))
 		for k, kv := range v {
 			arr[k] = kv
 		}
 		return arr
 	case []uint8:
-		arr := NewJsonArray()
+		arr := newJsonArray(len(v))
 		for k, kv := range v {
 			arr[k] = kv
 		}
 		return arr
 	case []uint16:
-		arr := NewJsonArray()
+		arr := newJsonArray(len(v))
 		for k, kv := range v {
 			arr[k] = kv
 		}
 		return arr
 	case []uint32:
-		arr := NewJsonArray()
+		arr := newJsonArray(len(v))
 		for k, kv := range v {
 			arr[k] = kv
 		}
 		return arr
 	case []uint64:
-		arr := NewJsonArray()
+		arr := newJsonArray(len(v))
 		for k, kv := range v {
 			arr[k] = kv
 		}
 		return arr
 	case []string:
-		arr := NewJsonArray()
+		arr := newJsonArray(len(v))
 		for k, kv := range v {
 			arr[k] = kv
 		}
 		return arr
 	case []float32:
-		arr := NewJsonArray()
+		arr := newJsonArray(len(v))
 		for k, kv := range v {
 			arr[k] = kv
 		}
 		return arr
 	case []float64:
-		arr := NewJsonArray()
+		arr := newJsonArray(len(v))
 		for k, kv := range v {
 			arr[k] = kv
 		}
@@ -202,7 +202,11 @@ func (j JsonFloat) ToFloat64() float64 {
 type JsonArray []interface{}
 
 func NewJsonArray() JsonArray {
-	return make(JsonArray, 0)
+	return newJsonArray(0)
+}
+
+func newJsonArray(size int) JsonArray {
+	return make(JsonArray, size)
 }
 
 func (j JsonArray) JsonEncode() (JsonString, error) {
@@ -212,6 +216,20 @@ func (j JsonArray) JsonEncode() (JsonString, error) {
 
 func (j JsonArray) Append(v interface{}) {
 	j = append(j, v)
+}
+
+func (j JsonArray) CopyFrom(arr JsonArray) {
+	copy(j, JsonArray(arr))
+}
+
+func (j JsonArray) Resize(n int) {
+	if n <= len(j) {
+		j = j[:n]
+	} else {
+		t := j
+		j = newJsonArray(n)
+		copy(j, t)
+	}
 }
 
 type JsonString String
