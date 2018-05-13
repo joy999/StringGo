@@ -61,7 +61,6 @@ func Sleep(seconds int) {
 }
 
 func SleepF(seconds float64) {
-	_s := time.Duration(seconds)
-	_s *= 1e9
+	_s := time.Duration(seconds * 1e9)
 	time.Sleep(_s)
 }
