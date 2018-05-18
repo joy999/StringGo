@@ -24,7 +24,7 @@ func FilePutContents(filename string, c []byte) error {
 }
 
 func FileAppendContents(filename string, c []byte) error {
-	f, err := os.OpenFile(filename, os.O_APPEND|os.O_CREATE, 0)
+	f, err := os.OpenFile(filename, os.O_APPEND|os.O_CREATE, 0644 )
 	if err != nil {
 		return err
 	}
