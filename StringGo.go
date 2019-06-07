@@ -1,13 +1,13 @@
 package utils
 
 import (
+	"github.com/joy999/mahonia"
 	"io"
 	"log"
 	"regexp"
 	"strconv"
 	"strings"
-
-	"github.com/joy999/mahonia"
+	"time"
 )
 
 type String string
@@ -19,6 +19,11 @@ func NewString() *String {
 	str := new(String)
 	*str = ""
 	return str
+}
+
+func NewStringArray() StringArray {
+	o := make([]String, 0)
+	return o
 }
 
 //获取长度
@@ -137,6 +142,14 @@ func (str String) ToInt() int {
 	return i
 }
 
+func (str String) ToInt64() int64 {
+	i, err := strconv.ParseInt(str.ToString(), 10, 64)
+	if err != nil {
+		i = 0
+	}
+	return i
+}
+
 func (str String) Explode(sep string) StringArray {
 	s := strings.Split(string(str), sep)
 	ret := make([]String, 0)
@@ -152,6 +165,18 @@ func (this String) IsSame(s string) bool {
 
 func (this String) TrimSpace() String {
 	return String(strings.TrimSpace(this.ToString()))
+}
+
+func (this String) ToUnixLocalTimeStamp(format string) int64 {
+	fs := String(format)
+	fs = fs.MatchReplace("Y", "2006")
+	fs = fs.MatchReplace("m", "01")
+	fs = fs.MatchReplace("d", "02")
+	fs = fs.MatchReplace("H", "15")
+	fs = fs.MatchReplace("i", "04")
+	fs = fs.MatchReplace("s", "05")
+	stamp, _ := time.ParseInLocation(fs.ToString(), this.ToString(), time.Local)
+	return stamp.Unix()
 }
 
 func (this StringArray) Have(item string) bool {
@@ -207,6 +232,10 @@ func (this StringArray) Erase(key int) StringArray {
 	}
 
 	return ret
+}
+
+func (this StringArray) Push(item string) {
+	this = append(this, String(item))
 }
 
 func doGBKToUTF8(inputStr string) string {
