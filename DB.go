@@ -7,12 +7,6 @@ import (
 	"sync"
 )
 
-var ODB *SqlDB = nil
-var ODBLevel int = 0
-var ODBLock sync.Mutex
-
-//var ODBStatus int
-
 type SqlTx struct {
 	*sql.Tx
 	db *SqlDB
@@ -96,45 +90,21 @@ func (this *SqlDB) Begin() (SqlOp, error) {
 }
 
 func (this *SqlDB) Close() error {
-	ODBLock.Lock()
-	defer ODBLock.Unlock()
-
-	ODBLevel--
-
-	if ODBLevel == 0 {
-		//ODBStatus = 0 //设置数据库为关闭状态
-		ODB = nil
-		return this.DB.Close()
-	}
-	return nil
+	return this.DB.Close()
 }
 
 func OpenDatabase(driverName, dataSourceName string) (SqlOp, error) {
-	ODBLock.Lock()
-	defer ODBLock.Unlock()
-
-	if ODB != nil {
-		if ODB.tx != nil {
-			//现在正处理事务中，则添加一层事务处理
-			return ODB.Begin()
-		} else {
-
-			ODBLevel++
-			return ODB, nil
-		}
-	}
 
 	db, err := sql.Open(driverName, dataSourceName)
 
-	ODBLevel++
 	sqldb := new(SqlDB)
 	sqldb.DB = db
 	sqldb.txLevel = 0
 	sqldb.tx = nil
 
-	ODB = sqldb
+	err = db.Ping()
 
-	return ODB, err
+	return sqldb, err
 }
 
 func checkErr(err error) {
