@@ -157,7 +157,7 @@ func ToJsonArray(value interface{}) JsonArray {
 }
 
 func (this JsonMap) GetValArray(key string) JsonArray {
-	return ToJsonArray(key)
+	return ToJsonArray(this[key])
 }
 
 func (j JsonMap) GetValInt64(key string) int64 {
